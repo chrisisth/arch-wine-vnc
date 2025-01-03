@@ -18,6 +18,7 @@ jobs:
           context: .
           push: false
           tags: arch-wine-vnc:latest
+          load: true  # Diese Zeile stellt sicher, dass das Image in Docker geladen wird
 
       - name: List Docker images
         run: docker images
