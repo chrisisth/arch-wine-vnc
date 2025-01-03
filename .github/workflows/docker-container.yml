@@ -17,5 +17,22 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
-          tags: toetje585/arch-wine-vnc:latest
+          push: false
+          tags: arch-wine-vnc:latest
+          
+      - name: Save Docker image to tar file
+        run: docker save arch-wine-vnc:latest -o arch-wine-vnc.tar
+
+      - name: Compress tar file to zip
+        run: zip arch-wine-vnc.zip arch-wine-vnc.tar
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: Release v1.0.0
+          draft: false
+          prerelease: false
+          files: arch-wine-vnc.zip
